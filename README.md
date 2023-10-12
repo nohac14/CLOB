@@ -1,6 +1,6 @@
-## Getting Started
+## What is this?
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This is an implementation of a Central Limit Order Book (CLOB) for trading equities. It should accept orders and publish updates on order book state changes or if trades occur.
 
 ## Folder Structure
 
