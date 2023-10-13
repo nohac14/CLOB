@@ -8,14 +8,12 @@ public class App {
         if (testC == 1) {
             Order order = new Order(
                 new Ticker("TW"),
-                new Trader("trader1"),
+                new Trader("trader1", "password"),
                 true,
                 99.50,
                 100
             );
-
-order.printOrder();
-
+            order.printOrder();
         }
         else if (testC == 2) {
 
