@@ -38,7 +38,7 @@ public class Order {
         this.trader = trader;
     }
 
-    public boolean isSide() {
+    public boolean getSide() {
         return side;
     }
 
@@ -68,6 +68,8 @@ public class Order {
 
     public void setFilledQuantity(int filledQuantity) {
         this.filledQuantity = filledQuantity;
+        if (filledQuantity == quantity)
+            setStatus(Status.COMPLETED);
     }
 
     public LocalDateTime getCreatedAt() {

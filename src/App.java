@@ -4,8 +4,15 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner kB = new Scanner(System.in);
-        formatTest(kB);
-        RUD(kB);
+        boolean yOn = true;
+        while (yOn) {
+            System.out.print("(1:formatTest)\nWhat do you want to do? : ");
+            if (kB.nextInt() == 1) {  
+                clearScreen();
+                formatTest(kB);
+                yOn = RUD(kB);
+            }
+        }
     }
 
     public static void clearScreen() {
@@ -13,10 +20,15 @@ public class App {
         System.out.flush();
     }
 
-    public static void RUD(Scanner kB) {
+    public static boolean RUD(Scanner kB) {
         System.out.print("Are you done? : ");
-        if (kB.nextInt() == 1) 
+        if (kB.nextInt() == 1)  {
+            return false;
+        }
+        else {
             clearScreen();
+            return true;
+        }
     }
 
     public static void formatTest(Scanner kB) {
@@ -80,5 +92,29 @@ public class App {
                 continue;
             }
         }
+    }
+
+    public static boolean isMatch(Order order1, Order order2) {
+        if (order1.getTrader().equals(order2.getTrader()) || (order1.getSide() == order2.getSide())) { // do not want same trader or side
+            return false;
+        }
+        else {
+            // checking status is open and same ticker
+            if ((order1.getStatus() == Status.OPEN) && ((order1.getStatus() == Status.OPEN) && (order1.getTicker().equals(order2.getTicker())))) {
+                if (order1.getSide()) {
+                    if (order1.getFilledQuantity() == order1.getQuantity()) { // has the order been fullfilled?
+                        order1.setStatus(Status.COMPLETED);
+                        return false;
+                    }
+                }
+                else {
+                    if (order2.getFilledQuantity() == order2.getQuantity()) {
+                        order2.setStatus(Status.COMPLETED);
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
