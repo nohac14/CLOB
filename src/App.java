@@ -21,6 +21,25 @@ public class App {
 
     public static void formatTest(Scanner kB) {
         System.out.print("Enter test case #: ");
+        int testC = kB.nextInt();
+        if (testC == 1) {
+            Order order = new Order(
+                new Ticker("TW"),
+                new Trader("trader1", "password"),
+                true,
+                99.50,
+                100
+            );
+            order.printOrder();
+        }
+        else if (testC == 2) {
+
+        }
+        else if (testC == 3) {
+            
+        }
+        else if (testC == 3) {
+            
         while (true) {    
             if (kB.nextInt() == 1) {
                 Order order = new Order(
