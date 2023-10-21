@@ -4,13 +4,14 @@ import java.time.format.DateTimeFormatter;
 public class Order {
     private Ticker ticker;
     private Trader trader;
-    private boolean side;
-    private double limit;
+    private boolean side; // true->buy | false->sell
+    private double limit; // price at which the stock is being bought/sold
     private int quantity;
-    private int filledQuantity;
+    private int filledQuantity; // the number of shares that has been traded from this
     private LocalDateTime createdAt;
+    private Status status;
     
-    public Order(Ticker ticker, Trader trader, boolean side, double limit, int quantity) {
+    public Order(Ticker ticker, Trader trader, boolean side, double limit, int quantity, Status status) {
         this.ticker = ticker;
         this.trader = trader;
         this.side = side;
@@ -18,6 +19,7 @@ public class Order {
         this.quantity = quantity;
         this.filledQuantity = 0;
         this.createdAt = LocalDateTime.now(); // current date and time
+        this.status = status;
     }
     
     public Ticker getTicker() {
@@ -90,8 +92,22 @@ public class Order {
     }
 
     public void printOrder() {
-        String sideStr = side ? "buy" : "sell";
-        System.out.println("| ticker | trader  | side | limit  | quantity |");
-        System.out.printf("| %-6s | %-7s | %-4s | $%-6.2f | %-8d |\n", ticker, trader, sideStr, limit, quantity);
+        String sideString = side ? "buy" : "sell";
+        System.out.println("| ticker | trader  | side | limit  | quantity | filledQty | status |");
+        System.out.println("--------------------------------------------------------------------");
+        System.out.printf("| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n", ticker.getIdentifier(), trader.getUsername(), sideString, limit, quantity, filledQuantity, status);
+    }
+
+    public void printAnotherOrder() {
+        String sideString = side ? "buy" : "sell";
+        System.out.printf("| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n", ticker.getIdentifier(), trader.getUsername(), sideString, limit, quantity, filledQuantity, status);
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

@@ -6,6 +6,10 @@ public class Trader {
         this.username = username;
         this.password = password;
     }
+    
+    public Trader(String username) {
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;
