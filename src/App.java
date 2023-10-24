@@ -1,9 +1,19 @@
+// import java.io.BufferedReader;
+import java.io.File;
+// import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner; 
+import java.util.ArrayList;
 
 public class App {
+     private static ArrayList<Order> ordersArr = new ArrayList<Order>();
+    
     public static void main(String[] args) throws Exception {
+        File file = new File("F:\\Personal Projects\\Stock Trading Engine\\CLOB\\src\\orders.in");
+        // BufferedReader br = new BufferedReader(new FileReader(file));
         Scanner kB = new Scanner(System.in);
+        fillOrders(kB, file);
+
         boolean yOn = true;
         while (yOn) {
             System.out.print("(1:formatTest)\nWhat do you want to do? : ");
@@ -95,26 +105,34 @@ public class App {
     }
 
     public static boolean isMatch(Order order1, Order order2) {
-        if (order1.getTrader().equals(order2.getTrader()) || (order1.getSide() == order2.getSide())) { // do not want same trader or side
+        if (order1.getTrader().equals(order2.getTrader()) || (order1.getSide() == order2.getSide()) || 
+                                order1.getStatus() != Status.OPEN || order2.getStatus() != Status.OPEN) { // do not want same trader or side
             return false;
         }
         else {
-            // checking status is open and same ticker
-            if ((order1.getStatus() == Status.OPEN) && ((order1.getStatus() == Status.OPEN) && (order1.getTicker().equals(order2.getTicker())))) {
-                if (order1.getSide()) {
-                    if (order1.getFilledQuantity() == order1.getQuantity()) { // has the order been fullfilled?
-                        order1.setStatus(Status.COMPLETED);
-                        return false;
-                    }
-                }
-                else {
-                    if (order2.getFilledQuantity() == order2.getQuantity()) {
-                        order2.setStatus(Status.COMPLETED);
-                        return false;
-                    }
-                }
+            if (order1.getSide() == false) { // order1 is selling
+                if ((order1.getQuantity() - order1.getFilledQuantity()) >= (order2.getQuantity() - order2.getFilledQuantity())) // is there enough stock for sale
+                    return priceMatch(order1, order2);
+                else
+                    return false;
+            }
+            else {
+                if ((order2.getQuantity() - order2.getFilledQuantity()) >= (order1.getQuantity() - order1.getFilledQuantity())) 
+                    return priceMatch(order2, order1);
+                else
+                    return false;
             }
         }
+    }
+
+    public static boolean priceMatch(Order orderS, Order orderB) {
         return true;
     }
+
+    public static void fillOrders(Scanner k, File file) {
+        while (k.hasNextLine()) {
+            
+        }
+    }
+
 }
