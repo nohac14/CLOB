@@ -9,17 +9,23 @@ public class App {
      private static ArrayList<Order> ordersArr = new ArrayList<Order>();
     
     public static void main(String[] args) throws Exception {
-        File file = new File("F:\\Personal Projects\\Stock Trading Engine\\CLOB\\src\\orders.in");
+        // File file = new File("F:\\Personal Projects\\Stock Trading Engine\\CLOB\\src\\orders.in");
         // BufferedReader br = new BufferedReader(new FileReader(file));
         Scanner kB = new Scanner(System.in);
-        fillOrders(kB, file);
+        // fillOrders(kB, file);
 
         boolean yOn = true;
         while (yOn) {
-            System.out.print("(1:formatTest)\nWhat do you want to do? : ");
+            System.out.print("(1:formatTest)\n(2:MatchTest)\nWhat do you want to do? : ");
             if (kB.nextInt() == 1) {  
                 clearScreen();
                 formatTest(kB);
+                yOn = RUD(kB);
+            }
+            if (kB.nextInt() == 2) {
+                clearScreen();
+                matchTest();
+                System.out.println(matchTest());
                 yOn = RUD(kB);
             }
         }
@@ -39,6 +45,29 @@ public class App {
             clearScreen();
             return true;
         }
+    }
+
+    public static boolean matchTest() {
+        Order order1 = new Order(
+            new Ticker("TW"),
+            new Trader("trader1"),
+            true,
+            99.50,
+            100,
+            Status.OPEN
+        );
+        order1.printOrder();
+        Order order2 = new Order(
+            new Ticker("TW"),
+            new Trader("trader2"),
+            false,
+            99.50,
+            100,
+            Status.OPEN
+        );
+        order2.printAnotherOrder();
+
+        return isMatch(order1, order2);     
     }
 
     public static void formatTest(Scanner kB) {
@@ -126,7 +155,11 @@ public class App {
     }
 
     public static boolean priceMatch(Order orderS, Order orderB) {
-        return true;
+        if ((orderS.getLimit() + 1) >= orderB.getLimit() || (orderB.getLimit() + 1) >= orderS.getLimit() || orderS.getLimit() == orderB.getLimit()) {
+            return true;
+        }
+        else
+            return false;
     }
 
     public static void fillOrders(Scanner k, File file) {
